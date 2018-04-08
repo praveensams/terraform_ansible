@@ -11,7 +11,7 @@ resource "aws_instance" "web" {
 
 
  provisioner "local-exec" {
-    command = "echo ${aws_instance.web.public_ip} > inventory &&  ansible-playbook -i inventory play.yml  -e 'ansible_ssh_private_key_file=praveen.pem'"
+    command = "echo ${aws_instance.web.public_ip} > inventory && sleep 3 && bash play.sh"
   }
 
 

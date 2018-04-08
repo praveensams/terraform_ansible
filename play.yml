@@ -1,9 +1,35 @@
 - hosts: all
   become: true
   remote_user: ec2-user
+  vars:
+    pack: ['git','gcc-c++','make']
 
   tasks:
     - name: install files
+      yum:
+        name: "{{ item }}"
+        state: "installed"
+      with_items:
+        - "{{ pack }}"
+
+    - name: adding repo
       shell: |
-            echo "hiiiii" > /tmp/logs
+             curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+             yum install nodejs -y
+        
+    - name: repo  download
+      git:
+        repo:  'https://github.com/heroku/node-js-sample.git'
+        dest: '/mnt'
+
+    - name: npm installation
+      shell: | 
+              cd /mnt
+              npm install 
+              nohup npm start &
+      async: 10
+      poll: 0
+        
+   
+
         
