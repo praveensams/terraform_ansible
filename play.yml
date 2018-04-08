@@ -1,0 +1,9 @@
+- hosts: all
+  become: true
+  remote_user: ec2-user
+
+  tasks:
+    - name: install files
+      shell: |
+            echo "hiiiii" > /tmp/logs
+        
